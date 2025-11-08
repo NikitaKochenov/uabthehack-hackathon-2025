@@ -14,15 +14,12 @@ Este es el repositorio oficial del reto **UAB WiFi Dataset Analysis** para el ev
 #### `starter_kits/`
 Notebooks de Jupyter para comenzar rápidamente en cada nivel:
 - `01_rookie_basic_analysis.ipynb` - Análisis básico para nivel ROOKIE
-- `02_intermediate_mobility.ipynb` - Análisis de movilidad para nivel INTERMEDIO
-- `03_advanced_ml_llm.ipynb` - Ejemplos de ML/LLM para nivel AVANZADO
 - `utils/` - Funciones auxiliares de carga y procesamiento
 
 #### `anonymized_data/`
 Dataset completo anonimizado:
 - `aps/` - ~2,300 archivos JSON con snapshots de Access Points
 - `clients/` - ~3,200 archivos JSON con datos de dispositivos conectados
-- `README.md` - Información sobre la anonimización y estructura de datos
 
 #### `samples/`
 Archivos de ejemplo para exploración rápida sin cargar el dataset completo
@@ -36,7 +33,6 @@ Documentación técnica:
 - `logo-uab.png` - Logo de la UAB
 - `logo-uab-the-hack.png` - Logo del evento
 - `criteris-repte-dtic.jpg` - Criterios de evaluación del reto
-- `premio-jbl-dtic.jpg` - Premio del reto DTIC
 
 ## Inicio Rápido
 
@@ -56,16 +52,11 @@ pip install -r requirements.txt
 jupyter notebook starter_kits/
 ```
 
-### 4. Empezar con el nivel apropiado
-- **Principiantes:** Abre `01_rookie_basic_analysis.ipynb`
-- **Intermedios:** Abre `02_intermediate_mobility.ipynb`
-- **Avanzados:** Abre `03_advanced_ml_llm.ipynb`
-
 ## Datos del Evento
 
 **Fecha:** 8-9 de noviembre de 2025
 **Organizador:** Consell d'Estudiants d'Enginyeria - UAB
-**Propuesto por:** DTIC (Serveis d'Informàtica UAB) - Gonçal Badenes Guia
+**Propuesto por:** DTIC (Serveis d'Informàtica UAB)
 
 ## Restricciones de Uso
 
@@ -79,8 +70,3 @@ jupyter notebook starter_kits/
 
 Durante el hackathon, busca a los mentores de DTIC en el evento o contacta:
 - **Soporte técnico:** albert.gil.lopez@uab.cat
-- **Responsable DTIC:** goncal.badenes@uab.cat
-
----
-
-**¡Buena suerte y a hackear! 🚀**
