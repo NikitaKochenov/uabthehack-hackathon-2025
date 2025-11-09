@@ -2,6 +2,29 @@ from utils.data_loader import load_aps, load_clients
 import pandas as pd
 import numpy as np
 
+# Velocidad media de los dispositivos
+def average_device_speed(df_clients: pd.DataFrame) -> float:
+    average_speed = float(df_clients['speed'].mean())
+    return round(average_speed, 2)
+
+# Calidad media de la señal y la calidad en los clientes
+def average_signal_quality(df_clients: pd.DataFrame) -> Tuple[float, float]:
+    average_signal = float(df_clients['signal_db'].mean())
+    average_quality = float(df_clients['signal_strength'].mean())
+    return round(average_signal, 2), round(average_quality, 2)
+
+# Ordenamos de peor a mejor señal por AP
+def worsts_aps_by_signal_quality(df_clients: pd.DataFrame, top_n: int = 10) -> pd.DataFrame:
+    df_signal_quality = average_signal_quality_per_ap(df_clients)
+    df_sorted = df_signal_quality.sort_values(by='connection_quality').head(top_n)
+    return df_sorted
+
+# Ordenamos de mejor a peor señal por AP
+def best_aps_by_signal_quality(df_clients: pd.DataFrame, top_n: int = 10) -> pd.DataFrame:
+    df_signal_quality = average_signal_quality_per_ap(df_clients)
+    df_sorted = df_signal_quality.sort_values(by='connection_quality', ascending=False).head(top_n)
+    return df_sorted
+
 def average_signal_quality_per_ap(df_clients: pd.DataFrame) -> pd.DataFrame:
     """
     Calcula la calidad promedio de señal, fuerza y velocidad por AP.
