@@ -19,7 +19,7 @@ def draw_buildings_graph_map(grafos_por_edificio: dict, df_aps, output_file='map
     # ---------------------------
     # Cargar datos de geolocalización y WiFi dentro de la función
     # ---------------------------
-    gdf_geo = gpd.read_file('./geo_data/aps_geolocalizados_wgs84.geojson')
+    gdf_geo = gpd.read_file('./data/aps_geolocalizados_wgs84.geojson')
 
     print(f"✓ {len(gdf_geo)} APs con geolocalización")
 
