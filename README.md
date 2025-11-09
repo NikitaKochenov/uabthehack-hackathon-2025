@@ -1,281 +1,104 @@
-# UAB WiFi Dataset Analysis - UAB THE HACK! 2025
+# 🧠 Projecte: Anàlisi de Moviments Wi-Fi a la UAB
 
-**Reto propuesto por:** DTIC (Serveis d'Informàtica UAB)
+## 📋 Descripció
 
-**Evento:** UAB THE HACK! - 8 y 9 de noviembre de 2025
+Aquest projecte analitza les connexions Wi-Fi dels punts d’accés (**APs**) de la **Universitat Autònoma de Barcelona (UAB)** per estudiar el **comportament espacial dels dispositius al llarg del temps**.  
+Mitjançant dades anonimitzades dels clients (dispositius) i dels APs, es construeix una sèrie d'eines per visualitzar i comprendre el comportament de la xarxa Wi-Fi dins dels edificis del campus.
 
-**Categoría:** Análisis de Datos + IA/ML
+A partir d’això, em generat varis mapas interactius i gràfics per visualitzar la situació actual de la xarxa Wi-Fi.
 
----
-
-## Descripción del Reto
-
-Analiza los datos de la red WiFi del campus de la UAB para descubrir patrones de uso, identificar problemas de conectividad y proponer mejoras basadas en datos reales.
-
-El dataset incluye información de **más de 1.000 Access Points** distribuidos por todo el campus y **miles de dispositivos** conectados durante el período abril-julio 2025.
+- La localització geogràfica dels APs (nodes).  
+- Qualitat mostrada en cada AP segons certs paràmetres.
+- Moviment frequent entre APs (arestes).
+- Gràfics tenint en compte la temporalitat i l’edifici.
 
 ---
 
-## Dataset
+## ⚙️ Estructura del projecte
 
-### Estructura
-
-- **Datos de Access Points (7.229 archivos JSON)**
-  - Snapshots temporales de todos los APs del campus
-  - Frecuencia: mayor durante horas lectivas
-  - Tamaño: ~1.4MB por archivo (~10GB total)
-
-- **Datos de Clientes/Dispositivos (3.205 archivos JSON)**
-  - Información detallada de dispositivos conectados
-  - ~10.000 dispositivos por snapshot
-  - Tamaño variable
-
-### Período de Datos
-
-**3 de abril - 10 de julio de 2025**
-
-### Anonimización
-
-**Todos los datos personales han sido anonimizados** usando HMAC-SHA256 con clave secreta:
-- MACs de dispositivos → `CLIENT_8f3a2b1c4d5e`
-- IPs → `IP_a1b2c3d4e5f6`
-- Serials de APs → `AP_4d3c2b1a0f9e`
-- Usernames → `USER_9e8d7c6b5a4f`
-- VLANs → `VLAN_A`, `VLAN_B`, etc.
-
-**La anonimización es consistente:** un mismo dispositivo tendrá el mismo hash en todos los archivos, permitiendo análisis de movilidad temporal.
-
----
-
-## Niveles del Reto
-
-### Nivel 1: ROOKIE (Análisis Básico)
-
-**Objetivo:** Explorar y visualizar el dataset
-
-**Tareas sugeridas:**
-- Identificar zonas "hotspot" con alta densidad de dispositivos
-- Analizar patrones temporales (horas pico, días de la semana)
-- Visualizar distribución de dispositivos por edificio
-- Estadísticas básicas: número de APs, dispositivos únicos, etc.
-
-**Herramientas recomendadas:** Python, Pandas, Matplotlib, Seaborn
-
-**Entregable:** Notebook con visualizaciones y conclusiones
-
----
-
-### Nivel 2: INTERMEDIO (Análisis Avanzado)
-
-**Objetivo:** Descubrir patrones y problemas de conectividad
-
-**Tareas sugeridas:**
-- **Análisis de movilidad:** flujos de dispositivos entre edificios
-- **Calidad de servicio:** zonas con señal débil o problemas de conexión
-- **Mapas de calor:** densidad + calidad de señal sobre mapa del campus
-- **Anomalías:** APs con comportamiento inusual
-- **Segmentación:** análisis por tipo de red (UAB vs eduroam), tipo de dispositivo
-
-**Herramientas recomendadas:** Python, NetworkX, Plotly, Folium (mapas), scikit-learn
-
-**Entregable:** Dashboard interactivo + informe técnico
-
----
-
-### Nivel 3: AVANZADO (IA/ML/LLMs)
-
-**Objetivo:** Sistemas inteligentes para optimización y recomendaciones
-
-**Tareas sugeridas:**
-- **Predicción de demanda:** ML para anticipar saturación de APs
-- **Sistema de recomendaciones con LLM:** chatbot que responde preguntas sobre la infraestructura usando RAG
-- **Detección de anomalías:** ML no supervisado para identificar problemas
-- **Optimización:** algoritmos para redistribución de canales WiFi
-- **Agentes IA:** sistema multi-agente para diagnóstico y resolución
-- **Digital Twin:** simulador del campus WiFi en tiempo real
-
-**Herramientas recomendadas:** PyTorch/TensorFlow, LangChain, Claude/GPT APIs, FastAPI
-
-**Entregable:** Sistema funcional + demo + documentación técnica
-
----
-
-## Datos Disponibles
-
-### Campos en Access Points
-
-```json
-{
-  "name": "AP-VET71",                    // Nombre del AP (identifica edificio)
-  "serial": "AP_ea4f8dd0b2e0",           // Serial anonimizado
-  "macaddr": "AP_ea4f8dd0b2e0",          // MAC anonimizada
-  "ip_address": "IP_4a767db8d4a7",      // IP anonimizada
-  "site": "UAB",
-  "group_name": "Bellaterra",
-  "status": "Up" / "Down",
-  "client_count": 4,                     // Dispositivos conectados
-  "cpu_utilization": 8,                  // Porcentaje CPU
-  "mem_free": 158683136,
-  "model": "314",
-  "firmware_version": "10.6.0.3_90581",
-  "radios": [                            // 2.4GHz, 5GHz, 6GHz
-    {
-      "band": 1,                         // 0=2.4GHz, 1=5GHz, 3=6GHz
-      "channel": "112",
-      "macaddr": "RADIO_31814ada5fa1",
-      "radio_type": "802.11ac",
-      "status": "Up",
-      "tx_power": 17,                    // Potencia transmisión (dBm)
-      "utilization": 3                   // Porcentaje uso del canal
-    }
-  ],
-  "last_modified": 1747356419,           // Timestamp
-  "uptime": 3867941                      // Segundos de uptime
-}
+```plaintext
+📦 uabthehack-hackathon-2025/
+ ┣ 📂 anonymized_data/
+ ┃ ┣ 📂 aps/                # Dades anonimitzades dels Access Points
+ ┃ ┗ 📂 clients/            # Dades anonimitzades dels clients Wi-Fi
+ ┣ 📂 data/
+ ┃ ┗ 📂 aps/aps_geolocalizados_wgs84.geojson
+ ┣ 📂 code/
+ ┃ ┣ analysis.py            # Anàlisi de dades
+ ┃ ┣ basic_graphic_stats.py # Gràfics estadístics bàsics
+ ┃ ┣ create_dataframe.py    # Creació i manipulació de DataFrames
+ ┃ ┣ graph.py               # Creació de grafs per edifici
+ ┃ ┣ main.py                # Punt d’entrada principal dins de code
+ ┃ ┣ distribution_map.py    # Mapa de distribució d’APs
+ ┃ ┣ mapa_aps.html          # Mapes estàtics generats
+ ┃ ┣ mapa_aps_grafo.html    # Mapes de grafs generats
+ ┃ ┣ mapa_calidad.py        # Anàlisi de qualitat de cobertura
+ ┃ ┣ timestamp_sorting.py   # Ordenació i filtratge per timestamps
+ ┃ ┗ zone_distribution.py   # Distribució de zones i clients
+ ┣ 📂 utils/
+ ┃ ┗ data_loader.py       # Funcions per carregar dades
+ ┣ 📂 graphics/
+ ┃ ┗ (archivos jpg)
+ ┣ config.py                  # Configuració visual i estils
+ ┗ README.md                  # Aquest document
 ```
-
-### Campos en Clientes
-
-```json
-{
-  "macaddr": "CLIENT_87e3ddea248c",              // MAC anonimizada
-  "ip_address": "IP_b8b8ae24ea0e",              // IP anonimizada
-  "hostname": "HOST_87e3ddea248c",              // Hostname anonimizado
-  "username": "USER_87e3ddea248c",              // Username anonimizado
-  "name": "NAME_87e3ddea248c",                  // Name anonimizado
-  "associated_device": "AP_8e2d9933ec92",       // Serial del AP (match con APs)
-  "associated_device_name": "AP-CEDU26",        // Nombre del AP
-  "associated_device_mac": "AP_5cdc80c05afc",
-  "radio_mac": "RADIO_6fad7568e4d9",            // MAC del radio (match con AP)
-  "gateway_serial": "GW_5c870ce8653f",
-  "vlan": "VLAN_A",                             // VLAN pseudonimizada
-  "network": "UAB" / "eduroam",
-  "authentication_type": "MAC Authentication" / "DOT1X",
-  "band": 5,                                    // 2.4 o 5 GHz
-  "channel": "100 (20 MHz)",
-  "signal_db": -55,                             // Potencia señal (dBm)
-  "signal_strength": 5,                         // 1-5 (1=peor, 5=mejor)
-  "snr": 41,                                    // Signal-to-Noise Ratio
-  "speed": 96,                                  // Velocidad actual (Mbps)
-  "maxspeed": 192,                              // Velocidad máxima (Mbps)
-  "health": 100,                                // Health score 0-100
-  "manufacturer": "SMART Technologies, Inc.",
-  "os_type": "Android" / "iOS" / "Windows" / ...,
-  "client_category": "SmartDevice" / "Computer" / ...,
-  "last_connection_time": 1743587787000,        // Timestamp
-  "site": "UAB",
-  "group_name": "Bellaterra"
-}
-```
+⚠️ Nota important:
+Les carpetes data/ i anonymized_data/ no es troben al repositori per motius de confidencialitat i protecció de dades sensibles.
+El codi està preparat per treballar amb aquestes dades, però no s’inclouen públicament.
 
 ---
 
-## Geolocalización de APs
+## 🧩 Funcionament del pipeline
 
-**Estado:** En proceso (pendiente de recibir desde GIS)
+1. **Càrrega de dades**  
+   Les funcions de `utils/data_loader.py` llegeixen i combinen múltiples fitxers JSON dels APs i dels clients Wi-Fi.
 
-Se proporcionarán coordenadas geográficas de los APs para permitir visualizaciones en mapas del campus.
+2. **Creació de la taula mare (`mother_table`)**  
+   Aquesta taula unifica dades de temps (`timestamp`), edifici, AP i client per facilitar anàlisi temporal i espacial.
+
+3. **Distribució d’APs per edifici (`building_types_distribution`)**  
+   Es genera una taula que associa cada edifici amb la seva llista d’APs únics.
+4. **Creació dels gràfics bàsics (`graphic_basic_stats`)**  
+   Es creen gràfics i estadístiques descriptives per entendre la distribució de clients i APs.
+
+5. **Creació dels grafs (`create_building_graphs`)**  
+   Cada edifici obté un graf que representa moviments detectats entre APs al llarg del temps.  
+   Els **nodes** = APs, les **arestes** = moviments de clients.
+
+6. **Representacións en mapa (`distributon_map` i `map_quality`)**  
+   S’integra la informació geogràfica (`GeoJSON`) i emb els dataframes.  
+   - **Intensitat del color de les arestes** → freqüència de moviments.  
+   - **Grandària i color dels nodes** → estat i quantitat de clients.
 
 ---
 
-## Starter Kit
-
-En la carpeta `starter_kits/` encontrarás:
-
-- `01_rookie_basic_analysis.ipynb`: Notebook con carga de datos y visualizaciones básicas
-- `utils/`: Funciones auxiliares para cargar y procesar datos
-
----
-
-## Instalación y Uso
-
-### Requisitos
+## 🧰 Requisits
 
 ```bash
-python >= 3.8
-pandas
-matplotlib
-seaborn
-jupyter
+pip install pandas geopandas folium seaborn networkx matplotlib difflib
 ```
+▶️ Execució
 
-### Instalación
+Executa el pipeline complet amb:
+python main.py
+El resultat generarà un fitxer HTML amb el mapa interactiu:
+mapa_aps_grafo.html
+Obre’l amb el navegador per explorar els moviments dins de cada edifici.
 
-```bash
-# Clonar o descargar el repositorio
-git clone <repo-url>
-cd dtic-wifi-analysis
+## 💡 Objectiu i utilitat
 
-# Instalar dependencias
-pip install -r requirements.txt
+L’anàlisi permet:
 
-# Lanzar Jupyter
-jupyter notebook starter_kits/
-```
-
----
-
-## Criterios de Evaluación
-
-### Nivel Rookie (30%)
-- **Corrección técnica (40%):** Análisis correcto de los datos
-- **Visualizaciones (30%):** Claridad y efectividad de gráficos
-- **Insights (20%):** Descubrimientos interesantes
-- **Presentación (10%):** Comunicación de resultados
-
-### Nivel Intermedio (35%)
-- **Profundidad técnica (35%):** Complejidad del análisis
-- **Innovación (25%):** Enfoques originales
-- **Aplicabilidad (25%):** Utilidad para DTIC
-- **Visualizaciones (15%):** Dashboards interactivos
-
-### Nivel Avanzado (35%)
-- **Innovación técnica (30%):** Uso no trivial de ML/LLMs/Agents
-- **Aplicabilidad real (25%):** ¿Lo usaría DTIC en producción?
-- **Complejidad (20%):** Integración de múltiples componentes
-- **Escalabilidad (15%):** ¿Funciona con el dataset completo?
-- **Demo (10%):** Presentación convincente
+- 🔍 **Detectar patrons de mobilitat** dins de la xarxa Wi-Fi.  
+- 📶 **Identificar APs amb alta connectivitat o transició.**  
+- 🏗️ **Ajudar en la planificació de la infraestructura Wi-Fi** del campus.  
+- 🕒 **Estudiar la dinàmica d’ocupació** dels espais universitaris al llarg del temps.
 
 ---
 
-## Restricciones de Uso
+## 👨‍💻 Autors
 
-- **Solo para fines educativos e investigación** durante el hackathon
-- **No redistribuir** el dataset fuera del evento
-- **No intentar** revertir la anonimización (violación de privacidad)
-- Los datos se **eliminarán después del hackathon** (puedes conservar agregados anonimizados)
-
----
-
-## Recursos Adicionales
-
-### Documentación WiFi
-- [Aruba Central API](https://developer.arubanetworks.com/)
-- [802.11 Standards](https://en.wikipedia.org/wiki/IEEE_802.11)
-- [WiFi Signal Strength Guide](https://www.metageek.com/training/resources/wifi-signal-strength-basics/)
-
-### Análisis de Datos
-- [Pandas Documentation](https://pandas.pydata.org/docs/)
-- [NetworkX](https://networkx.org/) - Para análisis de grafos/movilidad
-- [Folium](https://python-visualization.github.io/folium/) - Mapas interactivos
-
-### Machine Learning
-- [scikit-learn](https://scikit-learn.org/)
-- [LangChain](https://www.langchain.com/) - Para integración con LLMs
-- [Anthropic Claude API](https://docs.anthropic.com/)
-
----
-
-## Contacto y Soporte
-
-**Durante el hackathon:**
-- Busca a los mentores de DTIC en el evento
-- Preguntas técnicas: albert.gil.lopez@uab.cat
-
----
-
-## Licencia
-
-El código de los scripts de procesamiento está bajo licencia MIT.
-Los datos son propiedad de la UAB y solo para uso educativo durante el evento.
-
+Projecte desenvolupat per:
+- Víctor Frauca  
+- Nikita Kochenov  
+- Alexy Lysenko
